@@ -39,7 +39,7 @@ export default class WinnersPage extends React.Component {
 
   render() {
     const { page, totalWinnersCount, totalPagesCount, winners, sortOrder, sortBy } = this.state;
-    console.log(this.state);
+
     const content =
       winners === null ? (
         'No winners found :( Try to make a race first!'
@@ -75,7 +75,6 @@ export default class WinnersPage extends React.Component {
   onTimeFieldClick = () => {
     this.setState(({ sortBy, sortOrder }: TState) => {
       if (sortBy === CarsWinnersSortBy.time) {
-        console.log('true');
         return { sortOrder: this.switchSortOrder(sortOrder) };
       } else return { sortBy: CarsWinnersSortBy.time };
     });
