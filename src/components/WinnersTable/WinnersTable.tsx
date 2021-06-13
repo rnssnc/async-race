@@ -21,7 +21,7 @@ export default class WinnersTable extends React.Component<IProps, {}> {
     const { winners, sortBy, sortOrder, onTimeClick, onWinsClick } = this.props;
 
     const isSortByWins = sortBy === CarsWinnersSortBy.wins;
-    const isSortByTime = sortBy === CarsWinnersSortBy.wins;
+    const isSortByTime = sortBy === CarsWinnersSortBy.time;
     const orderBySymbol =
       sortOrder === CarsWinnersOrderBy.ASC ? SORT_SYMBOLS.ASC : SORT_SYMBOLS.DESC;
 
