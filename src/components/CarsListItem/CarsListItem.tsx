@@ -29,16 +29,16 @@ const CarsListItem = ({
   onEngineStop,
 }: Props) => {
   const isRaceStatusReady = raceStatus === RaceStatus.ready;
-  const isCar = status === undefined;
+  const isCarStatusStopped = status === undefined;
 
   return (
     <div className="car-item">
       <div className="row">
         <div className="col car-item__actions d-flex">
-          <button className="btn btn-primary" onClick={onSelect}>
+          <button className="btn btn-primary" disabled={!isRaceStatusReady} onClick={onSelect}>
             Select
           </button>
-          <button className="btn btn-primary" onClick={onRemove}>
+          <button className="btn btn-primary" disabled={!isRaceStatusReady} onClick={onRemove}>
             Remove
           </button>
         </div>
@@ -47,13 +47,13 @@ const CarsListItem = ({
           <button
             className="btn btn-outline-primary btn-sm"
             onClick={onEngineStart}
-            disabled={!isCar || !isRaceStatusReady}
+            disabled={!isCarStatusStopped || !isRaceStatusReady}
           >
             A
           </button>
           <button
             className="btn btn-outline-primary btn-sm"
-            disabled={isCar || !isRaceStatusReady}
+            disabled={isCarStatusStopped || !isRaceStatusReady}
             onClick={onEngineStop}
           >
             B
