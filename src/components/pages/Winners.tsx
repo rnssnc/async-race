@@ -26,7 +26,7 @@ export default class WinnersPage extends React.Component {
     totalWinnersCount: 0,
     page: 1,
     sortOrder: CarsWinnersOrderBy.ASC,
-    sortBy: CarsWinnersSortBy.wins,
+    sortBy: CarsWinnersSortBy.id,
   };
   componentDidUpdate = (_prevProps: {}, _prevState: TState) => {
     if (_prevState.sortBy !== this.state.sortBy || _prevState.sortOrder !== this.state.sortOrder)

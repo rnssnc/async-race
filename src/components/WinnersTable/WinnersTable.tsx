@@ -20,7 +20,8 @@ export default class WinnersTable extends React.Component<IProps, {}> {
   render() {
     const { winners, sortBy, sortOrder, onTimeClick, onWinsClick } = this.props;
 
-    const isSortBywins = sortBy === CarsWinnersSortBy.wins;
+    const isSortByWins = sortBy === CarsWinnersSortBy.wins;
+    const isSortByTime = sortBy === CarsWinnersSortBy.wins;
     const orderBySymbol =
       sortOrder === CarsWinnersOrderBy.ASC ? SORT_SYMBOLS.ASC : SORT_SYMBOLS.DESC;
 
@@ -37,10 +38,10 @@ export default class WinnersTable extends React.Component<IProps, {}> {
             <th scope="col">Car</th>
             <th scope="col">Name</th>
             <th scope="col" style={{ cursor: 'pointer' }} onClick={onWinsClick}>
-              Wins {isSortBywins ? orderBySymbol : SORT_SYMBOLS.sortable}
+              Wins {isSortByWins ? orderBySymbol : SORT_SYMBOLS.sortable}
             </th>
             <th scope="col" style={{ cursor: 'pointer' }} onClick={onTimeClick}>
-              Best time (s) {isSortBywins ? SORT_SYMBOLS.sortable : orderBySymbol}
+              Best time (s) {isSortByTime ? orderBySymbol : SORT_SYMBOLS.sortable}
             </th>
           </tr>
         </thead>
