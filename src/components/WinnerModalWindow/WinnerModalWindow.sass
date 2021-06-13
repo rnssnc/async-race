@@ -1,0 +1,31 @@
+.popup__wrapper
+  width: 100vw;
+  height: 100vh;
+  background-color: var(--popup-wrapper-background-color);
+  display: flex;
+  opacity: 0;
+  pointer-events: none;
+  justify-content: center
+  align-items: center
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 9999;
+  
+
+.popup__wrapper.popup--shown
+  opacity: 1;
+  pointer-events: all;
+
+.popup
+  display: flex
+  justify-content: center
+  align-items: center
+  border-radius: 10px
+  min-height: 100px
+  padding: 25px
+  background-color: #333333
+  color: white
+
+.popup__message
+  font-size: 16px
