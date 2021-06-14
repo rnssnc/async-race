@@ -10,7 +10,7 @@ interface IState {
   color: string;
 }
 
-export default class CarForm extends React.Component<IProps, {}> {
+export default class CarCreateForm extends React.Component<IProps, {}> {
   state: IState = {
     value: '',
     color: '',

@@ -30,11 +30,11 @@ export default class WinnersPage extends React.Component {
   };
   componentDidUpdate = (_prevProps: {}, _prevState: TState) => {
     if (_prevState.sortBy !== this.state.sortBy || _prevState.sortOrder !== this.state.sortOrder)
-      this.getWinners();
+      this.getWinnersToState();
   };
 
   componentDidMount = () => {
-    this.getWinners();
+    this.getWinnersToState();
   };
 
   render() {
@@ -62,8 +62,8 @@ export default class WinnersPage extends React.Component {
               isLocked={false}
               page={page}
               pageCount={totalPagesCount}
-              onNextPage={() => this.getWinners(this.state.page + 1)}
-              onPrevPage={() => this.getWinners(this.state.page - 1)}
+              onNextPage={() => this.getWinnersToState(this.state.page + 1)}
+              onPrevPage={() => this.getWinnersToState(this.state.page - 1)}
             />
           </div>
           {content}
@@ -92,7 +92,7 @@ export default class WinnersPage extends React.Component {
     });
   };
 
-  getWinners = (page = this.state.page, limit = this.WINNERS_PER_PAGE) => {
+  getWinnersToState = (page = this.state.page, limit = this.WINNERS_PER_PAGE) => {
     const { sortOrder, sortBy } = this.state;
 
     CarService.getWinners({

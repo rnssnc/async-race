@@ -1,8 +1,13 @@
 import React from 'react';
 
-import CarService, { TCar, CarStatus, IEngineData, RaceStatus } from '../../services/CarService';
+import CarService, {
+  TCar,
+  CarStatus,
+  IServiceEngineData,
+  RaceStatus,
+} from '../../services/CarService';
 import ErrorBoundry from '../ErrorBoundry/ErrorBoundry';
-import CarForm from '../CarForm/CarForm';
+import CarCreateForm from '../CarCreateForm/CarCreateForm';
 import CarUpdateForm from '../CarUpdateForm/CarUpdateForm';
 import CarsActions from '../CarsActions/CarsActions';
 import CarsGarage from '../CarsGarage/CarsGarage';
@@ -53,12 +58,12 @@ export default class GaragePage extends React.Component<IProps, {}> {
   };
 
   componentDidMount() {
-    this.getCars(this.props.page);
+    this.getCarsToState(this.props.page);
   }
 
-  componentWillUnmount() {
-    this.props.onUnmount(this.state.page);
-  }
+  // componentWillUnmount() {
+  //   this.props.onUnmount(this.state.page);
+  // }
 
   render() {
     const {
@@ -77,7 +82,7 @@ export default class GaragePage extends React.Component<IProps, {}> {
       <ErrorBoundry>
         <section className="section">
           <div className="car-forms-wrapper d-flex flex-wrap pt-4">
-            <CarForm defaultState={CREATE_CAR_DEFAULT_STATE} onItemSubmit={this.addCar} />
+            <CarCreateForm defaultState={CREATE_CAR_DEFAULT_STATE} onItemSubmit={this.addCar} />
             <CarUpdateForm
               currentCar={currentCar}
               defaultState={CREATE_CAR_DEFAULT_STATE}
@@ -100,8 +105,8 @@ export default class GaragePage extends React.Component<IProps, {}> {
           raceStatus={raceStatus}
           page={page}
           pageCount={totalPagesCount}
-          onNextPage={() => this.getCars(this.state.page + 1)}
-          onPrevPage={() => this.getCars(this.state.page - 1)}
+          onNextPage={() => this.getCarsToState(this.state.page + 1)}
+          onPrevPage={() => this.getCarsToState(this.state.page - 1)}
           onSelect={this.onSelect}
           onRemove={this.onRemove}
           onEngineStart={this.onEngineStart}
@@ -120,14 +125,6 @@ export default class GaragePage extends React.Component<IProps, {}> {
       isWinnerPopupShown: false,
       winnerCar: null,
     });
-  };
-
-  onNextPage = (): void => {
-    this.getCars(this.state.page + 1);
-  };
-
-  onPrevPage = (): void => {
-    this.getCars(this.state.page - 1);
   };
 
   onEngineStop = (id: any): void => {
@@ -211,7 +208,7 @@ export default class GaragePage extends React.Component<IProps, {}> {
     );
   }
 
-  private startCar(id: number, engineData: IEngineData) {
+  private startCar(id: number, engineData: IServiceEngineData) {
     this.setState(({ cars }: State) => {
       const newCarData = cars.map((car) => {
         if (car.id === id) {
@@ -227,7 +224,7 @@ export default class GaragePage extends React.Component<IProps, {}> {
     });
   }
 
-  private startCars(engineData: IEngineData[]) {
+  private startCars(engineData: IServiceEngineData[]) {
     this.setState(({ cars }: State) => {
       const newCarData = cars.map((car, index) => {
         car.status = CarStatus.drive;
@@ -279,7 +276,9 @@ export default class GaragePage extends React.Component<IProps, {}> {
   }
 
   onRemove = (id: any): void => {
-    Promise.all([CarService.deleteCar(id), CarService.deleteWinner(id)]).then(() => this.getCars());
+    Promise.all([CarService.deleteCar(id), CarService.deleteWinner(id)]).then(() =>
+      this.getCarsToState(),
+    );
   };
 
   onSelect = (car: TCar): void => {
@@ -290,7 +289,7 @@ export default class GaragePage extends React.Component<IProps, {}> {
 
   addCar = (name: string, color: string, doUpdate = true) => {
     CarService.createCar({ name, color }).then(() => {
-      if (doUpdate) this.getCars();
+      if (doUpdate) this.getCarsToState();
     });
   };
 
@@ -302,7 +301,7 @@ export default class GaragePage extends React.Component<IProps, {}> {
         name: carName,
         color,
       }).then(() => {
-        this.getCars();
+        this.getCarsToState();
         this.setState({
           currentCar: null,
         });
@@ -330,7 +329,7 @@ export default class GaragePage extends React.Component<IProps, {}> {
     });
   };
 
-  getCars = (page = this.state.page, limit = this.CARS_PER_PAGE) => {
+  getCarsToState = (page = this.state.page, limit = this.CARS_PER_PAGE) => {
     CarService.getCars(page, limit).then(({ cars, count }) => {
       this.setState({
         cars,
