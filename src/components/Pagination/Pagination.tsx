@@ -17,11 +17,11 @@ const Pagination = ({ page, pageCount, isLocked, onNextPage, onPrevPage }: IProp
   return (
     <div className="pagination d-flex align-items-center">
       <div className="pagination__buttons-wrapper d-flex">
-        <button className="btn btn-primary" onClick={onNextPage} disabled={isLastPage || isLocked}>
-          Next
-        </button>
         <button className="btn btn-primary" onClick={onPrevPage} disabled={isFirstPage || isLocked}>
           Previous
+        </button>
+        <button className="btn btn-primary" onClick={onNextPage} disabled={isLastPage || isLocked}>
+          Next
         </button>
       </div>
       <span className="pagination__caption">
