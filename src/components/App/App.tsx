@@ -46,7 +46,7 @@ export default class App extends React.Component {
     const { currentPage } = this.state;
 
     const isCurrentPageGarage = currentPage === PAGES.garage;
-    console.log(isCurrentPageGarage);
+
     return (
       <ErrorBoundry>
         <Header />

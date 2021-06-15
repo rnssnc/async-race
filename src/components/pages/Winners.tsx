@@ -4,6 +4,7 @@ import CarService, {
   TWinner,
   CarsWinnersOrderBy,
   CarsWinnersSortBy,
+  IServiceCarWinner,
 } from '../../services/CarService';
 import WinnersTable from '../WinnersTable/WinnersTable';
 import Pagination from '../Pagination/Pagination';
@@ -112,10 +113,10 @@ export default class WinnersPage extends React.Component<IProps, {}> {
       limit,
       sort: sortBy,
       order: sortOrder,
-    }).then((data) => {
+    }).then((data: { items: IServiceCarWinner[]; count: number }) => {
       const winners: TWinner[] = [];
 
-      if (winners.length === 0 && this.state.page !== 1) this.getWinnersToState(1);
+      if (data.items.length === 0 && this.state.page !== 1) this.getWinnersToState(1);
 
       const getCarPromises = data.items.map((item) =>
         CarService.getCar(item.id).then((car) =>

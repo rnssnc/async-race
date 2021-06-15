@@ -35,7 +35,11 @@ const CarsListItem = ({
     <div className="car-item">
       <div className="row">
         <div className="col car-item__actions d-flex">
-          <button className="btn btn-primary" disabled={!isRaceStatusReady} onClick={onSelect}>
+          <button
+            className="btn btn-primary"
+            disabled={!isRaceStatusReady || !isCarStatusStopped}
+            onClick={onSelect}
+          >
             Select
           </button>
           <button className="btn btn-primary" disabled={!isRaceStatusReady} onClick={onRemove}>

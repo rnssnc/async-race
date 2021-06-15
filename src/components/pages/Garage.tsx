@@ -270,7 +270,9 @@ export default class GaragePage extends React.Component<IProps, {}> {
   private stopCar(id: number) {
     this.setState(({ cars }: State) => {
       const newCarData = cars.map((car) =>
-        car.id === id ? ((car.status = CarStatus.stopped), car) : car,
+        car.id === id
+          ? (car.status === CarStatus.drive ? (car.status = CarStatus.stopped) : null, car)
+          : car,
       );
 
       return {
@@ -320,6 +322,7 @@ export default class GaragePage extends React.Component<IProps, {}> {
   generateCars = (carsToGeterate: number) => {
     Promise.all([fetch(CAR_BRANDS_PATH), fetch(CAR_MODELS_PATH)]).then((responses) => {
       const resp = responses.map((response) => response.json());
+
       Promise.all(resp).then(([brands, models]) => {
         for (let i = 0; i < carsToGeterate; i++) {
           const randomBrand = brands[Math.floor(Math.random() * brands.length)];
