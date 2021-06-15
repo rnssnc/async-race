@@ -11,16 +11,26 @@ interface IProps {
 }
 
 const Pagination = ({ page, pageCount, isLocked, onNextPage, onPrevPage }: IProps) => {
-  const isFirstPage = page <= 1 ? true : false;
-  const isLastPage = page >= pageCount ? true : false;
+  const isFirstPage = page <= 1;
+  const isLastPage = page >= pageCount;
 
   return (
     <div className="pagination d-flex align-items-center">
       <div className="pagination__buttons-wrapper d-flex">
-        <button className="btn btn-primary" onClick={onPrevPage} disabled={isFirstPage || isLocked}>
+        <button
+          type="button"
+          className="btn btn-primary"
+          onClick={onPrevPage}
+          disabled={isFirstPage || isLocked}
+        >
           Previous
         </button>
-        <button className="btn btn-primary" onClick={onNextPage} disabled={isLastPage || isLocked}>
+        <button
+          type="button"
+          className="btn btn-primary"
+          onClick={onNextPage}
+          disabled={isLastPage || isLocked}
+        >
           Next
         </button>
       </div>

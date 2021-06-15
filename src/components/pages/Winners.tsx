@@ -99,7 +99,8 @@ export default class WinnersPage extends React.Component<IProps, {}> {
     this.setState(({ sortBy, sortOrder }: TState) => {
       if (sortBy === CarsWinnersSortBy.wins) {
         return { sortOrder: this.switchSortOrder(sortOrder) };
-      } else return { sortBy: CarsWinnersSortBy.wins };
+      }
+      return { sortBy: CarsWinnersSortBy.wins };
     });
   };
 

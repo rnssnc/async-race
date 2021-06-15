@@ -195,14 +195,13 @@ export default class CarService {
     const status = await CarService.getWinnerStatus(id);
 
     if (status === 404) return await CarService.createWinner({ id, wins: 1, time });
-    else {
-      const winner = await CarService.getWinner(id);
 
-      const newTime = time < winner.time ? time : winner.time;
+    const winner = await CarService.getWinner(id);
 
-      await CarService.updateWinner({ id, wins: ++winner.wins, time: newTime });
+    const newTime = time < winner.time ? time : winner.time;
 
-      return { id, wins: ++winner.wins, time };
-    }
+    await CarService.updateWinner({ id, wins: winner.wins + 1, time: newTime });
+
+    return { id, wins: winner.wins + 1, time };
   }
 }

@@ -18,15 +18,6 @@ export default class CarCreateForm extends React.Component<IProps, {}> {
     color: '',
   };
 
-  componentDidMount() {
-    const { value, color } = this.props.defaultState;
-
-    this.setState({
-      value,
-      color,
-    });
-  }
-
   render() {
     const isInputEmpty = Boolean(!this.state.value);
 
@@ -57,6 +48,15 @@ export default class CarCreateForm extends React.Component<IProps, {}> {
         </button>
       </form>
     );
+  }
+
+  componentDidMount() {
+    const { value, color } = this.props.defaultState;
+
+    this.setState({
+      value,
+      color,
+    });
   }
 
   onLabelChange = (e: React.ChangeEvent<HTMLInputElement>) => {
