@@ -1,8 +1,10 @@
 import React from 'react';
+import { RaceStatus } from '../../services/CarService';
 
 interface IProps {
   defaultState: IState;
   onItemSubmit(value: string, color: string): void;
+  raceStatus: RaceStatus;
 }
 
 interface IState {
@@ -28,6 +30,8 @@ export default class CarCreateForm extends React.Component<IProps, {}> {
   render() {
     const isInputEmpty = Boolean(!this.state.value);
 
+    const isRaceStatusReady = this.props.raceStatus === RaceStatus.ready;
+
     const className = 'btn btn-primary';
 
     return (
@@ -48,7 +52,7 @@ export default class CarCreateForm extends React.Component<IProps, {}> {
           onChange={this.onColorChange}
           value={this.state.color}
         ></input>
-        <button className={className} disabled={isInputEmpty}>
+        <button className={className} disabled={isInputEmpty || !isRaceStatusReady}>
           Create
         </button>
       </form>

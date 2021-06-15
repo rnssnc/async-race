@@ -1,5 +1,5 @@
 import React from 'react';
-import { TCar } from '../../services/CarService';
+import { RaceStatus, TCar } from '../../services/CarService';
 
 interface IProps {
   defaultState: {
@@ -9,6 +9,7 @@ interface IProps {
   currentCar: TCar | null;
   value: string;
   color: string;
+  raceStatus: RaceStatus;
   onItemSubmit(value: string, color: string): void;
 }
 
@@ -39,6 +40,8 @@ export default class CarForm extends React.Component<IProps, {}> {
     const { value, color, currentCar } = this.state;
     const isCurrentCarExist = Boolean(!currentCar);
 
+    const isRaceStatusReady = this.props.raceStatus === RaceStatus.ready;
+
     const className = 'btn btn-primary';
 
     return (
@@ -61,7 +64,7 @@ export default class CarForm extends React.Component<IProps, {}> {
           value={color || '#ffffff'}
           disabled={isCurrentCarExist}
         ></input>
-        <button className={className} disabled={isCurrentCarExist}>
+        <button className={className} disabled={isCurrentCarExist || !isRaceStatusReady}>
           Update
         </button>
       </form>

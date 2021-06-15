@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
-
 import './App.sass';
 
 import '../../styles/fonts.sass';
@@ -13,35 +11,51 @@ import Header from '../Header/Header';
 import GaragePage from '../pages/Garage';
 import WinnersPage from '../pages/Winners';
 
+const PAGES: Record<string, string> = {
+  garage: 'garage',
+  winners: 'winners',
+};
+
+type TState = {
+  currentPage: string;
+};
 export default class App extends React.Component {
-  state = {
-    garagePage: {
-      page: 1,
-    },
+  state: TState = {
+    currentPage: PAGES.garage,
   };
 
-  render() {
-    const { garagePage } = this.state;
+  setCurrentPageHashToState = () => {
+    const hash = window.location.hash.slice(1).toLowerCase();
 
+    for (const item in PAGES) {
+      if (item === hash) {
+        this.setState({ currentPage: PAGES[hash] });
+        return;
+      }
+    }
+
+    this.setState({ currentPage: PAGES.garage });
+  };
+
+  componentDidMount() {
+    this.setCurrentPageHashToState();
+    window.addEventListener('hashchange', this.setCurrentPageHashToState);
+  }
+
+  render() {
+    const { currentPage } = this.state;
+
+    const isCurrentPageGarage = currentPage === PAGES.garage;
+    console.log(isCurrentPageGarage);
     return (
       <ErrorBoundry>
-        <Router>
-          <Header />
+        <Header />
+        <main className="main">
+          <GaragePage isVisible={isCurrentPageGarage} />
 
-          <Switch>
-            <Route exact path="/">
-              <GaragePage page={garagePage.page} onUnmount={this.onGaragePageUnmount} />
-            </Route>
-            <Route path="/winners">
-              <WinnersPage />
-            </Route>
-          </Switch>
-        </Router>
+          <WinnersPage isVisible={!isCurrentPageGarage} />
+        </main>
       </ErrorBoundry>
     );
   }
-
-  onGaragePageUnmount = (page: number) => {
-    this.setState({ garagePage: { page } });
-  };
 }

@@ -1,22 +1,21 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 
 import './Header.sass';
 
 const Header = () => {
   return (
     <header className="header">
-      <Link className="logotype nav__link" to="/">
+      <div className="logotype nav__link">
         <span className="logotype__text-top">ASYNC</span>{' '}
         <span className="logotype__text-bottom">RACE</span>
-      </Link>
+      </div>
       <nav className="nav header-nav">
-        <Link className="nav__link" to="/">
+        <a className="nav__link" href="#garage">
           Garage
-        </Link>
-        <Link className="nav__link" to="/winners">
+        </a>
+        <a className="nav__link" href="#winners">
           Winners
-        </Link>
+        </a>
       </nav>
     </header>
   );

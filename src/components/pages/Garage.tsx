@@ -37,8 +37,7 @@ type State = {
 };
 
 interface IProps {
-  page: number;
-  onUnmount: (page: number) => void;
+  isVisible: boolean;
 }
 
 export default class GaragePage extends React.Component<IProps, {}> {
@@ -58,12 +57,10 @@ export default class GaragePage extends React.Component<IProps, {}> {
   };
 
   componentDidMount() {
-    this.getCarsToState(this.props.page);
+    this.getCarsToState(this.state.page);
   }
 
-  // componentWillUnmount() {
-  //   this.props.onUnmount(this.state.page);
-  // }
+  componentDidUpdate(_prevProps: IProps) {}
 
   render() {
     const {
@@ -78,12 +75,19 @@ export default class GaragePage extends React.Component<IProps, {}> {
       isWinnerPopupShown,
     } = this.state;
 
+    const { isVisible } = this.props;
+
     return (
       <ErrorBoundry>
-        <section className="section">
+        <section className={`section ${isVisible ? '' : 'page--hidden'}`}>
           <div className="car-forms-wrapper d-flex flex-wrap pt-4">
-            <CarCreateForm defaultState={CREATE_CAR_DEFAULT_STATE} onItemSubmit={this.addCar} />
+            <CarCreateForm
+              raceStatus={raceStatus}
+              defaultState={CREATE_CAR_DEFAULT_STATE}
+              onItemSubmit={this.addCar}
+            />
             <CarUpdateForm
+              raceStatus={raceStatus}
               currentCar={currentCar}
               defaultState={CREATE_CAR_DEFAULT_STATE}
               value={currentCar?.name || ''}
@@ -98,25 +102,25 @@ export default class GaragePage extends React.Component<IProps, {}> {
             onResetClick={this.carsReset}
             isLoading={isLoading}
           />
+          <CarsGarage
+            cars={cars}
+            carsCount={totalCarsCount}
+            raceStatus={raceStatus}
+            page={page}
+            pageCount={totalPagesCount}
+            onNextPage={() => this.getCarsToState(this.state.page + 1)}
+            onPrevPage={() => this.getCarsToState(this.state.page - 1)}
+            onSelect={this.onSelect}
+            onRemove={this.onRemove}
+            onEngineStart={this.onEngineStart}
+            onEngineStop={this.onEngineStop}
+          />
+          <WinnerModalWindow
+            isShown={isWinnerPopupShown}
+            carWinner={winnerCar}
+            onClose={this.onWinnerModalClose}
+          ></WinnerModalWindow>
         </section>
-        <CarsGarage
-          cars={cars}
-          carsCount={totalCarsCount}
-          raceStatus={raceStatus}
-          page={page}
-          pageCount={totalPagesCount}
-          onNextPage={() => this.getCarsToState(this.state.page + 1)}
-          onPrevPage={() => this.getCarsToState(this.state.page - 1)}
-          onSelect={this.onSelect}
-          onRemove={this.onRemove}
-          onEngineStart={this.onEngineStart}
-          onEngineStop={this.onEngineStop}
-        />
-        <WinnerModalWindow
-          isShown={isWinnerPopupShown}
-          carWinner={winnerCar}
-          onClose={this.onWinnerModalClose}
-        ></WinnerModalWindow>
       </ErrorBoundry>
     );
   }

@@ -17,7 +17,11 @@ type TState = {
   sortBy: CarsWinnersSortBy;
 };
 
-export default class WinnersPage extends React.Component {
+interface IProps {
+  isVisible: boolean;
+}
+
+export default class WinnersPage extends React.Component<IProps, {}> {
   readonly WINNERS_PER_PAGE = 10;
 
   state: TState = {
@@ -28,9 +32,14 @@ export default class WinnersPage extends React.Component {
     sortOrder: CarsWinnersOrderBy.ASC,
     sortBy: CarsWinnersSortBy.id,
   };
-  componentDidUpdate = (_prevProps: {}, _prevState: TState) => {
+
+  componentDidUpdate = (_prevProps: IProps, _prevState: TState) => {
     if (_prevState.sortBy !== this.state.sortBy || _prevState.sortOrder !== this.state.sortOrder)
       this.getWinnersToState();
+
+    if (_prevProps.isVisible !== this.props.isVisible) {
+      if (this.props.isVisible === true) this.getWinnersToState();
+    }
   };
 
   componentDidMount = () => {
@@ -39,6 +48,8 @@ export default class WinnersPage extends React.Component {
 
   render() {
     const { page, totalWinnersCount, totalPagesCount, winners, sortOrder, sortBy } = this.state;
+
+    const { isVisible } = this.props;
 
     const content =
       winners === null ? (
@@ -55,7 +66,7 @@ export default class WinnersPage extends React.Component {
 
     return (
       <ErrorBoundry>
-        <section className="section winners-section pt-4">
+        <section className={`section winners-section pt-4 ${isVisible ? '' : 'page--hidden'}`}>
           <div className="winners-section__heading-pagination-wrapper d-flex align-items-center">
             <h2 className="mb-0">Winners{totalWinnersCount > 0 ? `(${totalWinnersCount})` : ''}</h2>
             <Pagination
@@ -102,6 +113,8 @@ export default class WinnersPage extends React.Component {
       order: sortOrder,
     }).then((data) => {
       const winners: TWinner[] = [];
+
+      if (winners.length === 0 && this.state.page !== 1) this.getWinnersToState(1);
 
       const getCarPromises = data.items.map((item) =>
         CarService.getCar(item.id).then((car) =>
