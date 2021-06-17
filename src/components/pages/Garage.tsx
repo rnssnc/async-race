@@ -102,7 +102,8 @@ export default class GaragePage extends React.Component<IProps, {}> {
             onRaceClick={this.carsRace}
             onGenerateClick={() => this.generateCars(this.CARS_TO_GENERATE)}
             onResetClick={this.carsReset}
-            isLoading={isLoading || isCarNotReady}
+            isLoading={isLoading}
+            isCarNotReady={isCarNotReady}
           />
           <CarsGarage
             cars={cars}

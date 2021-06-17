@@ -9,10 +9,12 @@ type IProps = {
   onRaceClick(): void;
   onResetClick(): void;
   onGenerateClick(): void;
+  isCarNotReady: boolean;
 };
 
 const carsActions = (props: IProps) => {
-  const { isLoading, raceStatus, onRaceClick, onResetClick, onGenerateClick } = props;
+  const { isLoading, isCarNotReady, raceStatus, onRaceClick, onResetClick, onGenerateClick } =
+    props;
 
   const isRaceDone = !(raceStatus === RaceStatus.complete);
   const isRaceReady = !(raceStatus === RaceStatus.ready);
@@ -21,7 +23,7 @@ const carsActions = (props: IProps) => {
     <div className="cars-actions-wrapper  d-flex pt-3">
       <button
         className="col btn btn-outline-primary"
-        disabled={isRaceReady || isLoading}
+        disabled={isRaceReady || isLoading || isCarNotReady}
         onClick={onRaceClick}
       >
         Race
