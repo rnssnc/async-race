@@ -77,6 +77,8 @@ export default class GaragePage extends React.Component<IProps, {}> {
 
     const { isVisible } = this.props;
 
+    const isCarNotReady = cars.some((car) => car.status !== undefined);
+
     return (
       <ErrorBoundry>
         <section className={`section ${isVisible ? '' : 'page--hidden'}`}>
@@ -100,7 +102,7 @@ export default class GaragePage extends React.Component<IProps, {}> {
             onRaceClick={this.carsRace}
             onGenerateClick={() => this.generateCars(this.CARS_TO_GENERATE)}
             onResetClick={this.carsReset}
-            isLoading={isLoading}
+            isLoading={isLoading || isCarNotReady}
           />
           <CarsGarage
             cars={cars}
